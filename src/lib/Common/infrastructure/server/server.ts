@@ -9,6 +9,7 @@ import { TaskRouter } from "../../../Task/infrastructure/routes/TaskRouter";
 import { ErrorHandlerMiddleware } from "../error";
 import { Logger } from "../logger/logger";
 import { checkFirebaseStatus } from "../firebase/firebaseApp";
+import * as functions from "firebase-functions";
 
 export class Server {
   public app = express();
@@ -64,9 +65,13 @@ export class Server {
     this.app.use(ErrorHandlerMiddleware);
   }
 
-  public start() {
-    this.app.listen(config.port, () => {
-      Logger.info(`🚀 Server running on port ${config.port}`);
-    });
+  
+  public init() {
+    if (config.production) {
+      return functions.https.onRequest(this.app);
+    } else {
+      return this.app
+    }
+
   }
 }

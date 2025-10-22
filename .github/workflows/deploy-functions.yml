@@ -39,7 +39,4 @@ jobs:
           NODE_ENV: ${{ vars.NODE_ENV }}
           PORT: ${{ vars.PORT }}
           PREFIX: ${{ vars.PREFIX }}
-
-          
-
         run: firebase deploy --only functions --non-interactive

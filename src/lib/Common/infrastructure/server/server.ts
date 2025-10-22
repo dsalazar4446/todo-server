@@ -23,7 +23,7 @@ export class Server {
   private initializeFirebase() {
     
     const { firebaseKeyPath } = config.firebase;
-    if (!firebaseKeyPath) {
+    if (!firebaseKeyPath && !config.production) {
       throw new Error("FIREBASE_KEY_PATH is not defined in .env");
     }
     if (!config.production) {

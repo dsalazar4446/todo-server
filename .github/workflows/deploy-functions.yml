@@ -20,15 +20,12 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        working-directory: ./todo-server
         run: npm ci
 
       - name: Build TypeScript
-        working-directory: ./todo-server
         run: npm run build
 
       - name: Deploy to Firebase
-        working-directory: ./todo-server
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}

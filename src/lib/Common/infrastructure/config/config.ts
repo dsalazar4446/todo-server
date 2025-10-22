@@ -1,8 +1,7 @@
 import dotenv from "dotenv";
 import path from "path";
-
+import { defineInt, defineString } from "firebase-functions/params";
 import fs from "fs";
-
 dotenv.config({
   path: path.resolve(__dirname, "../../../../../.env"),
 });
@@ -20,16 +19,17 @@ if (fs.existsSync(secretsPath)) {
 
 export const config = {
   firebase: {
-    bucket : process.env.FIREBASE_STORAGE_BUCKET || "",
+    bucket : process.env.FIREBASE_STORAGE_BUCKET || defineString("FIREBASE_STORAGE_BUCKET").value() || "",
     firebaseKeyPath: process.env.FIREBASE_KEY_PATH || "",
-    projectId: process.env.FIREBASE_PROJECT_ID || "",
+    projectId: process.env.FIREBASE_PROJECT_ID || defineString("FIREBASE_PROJECT_ID").value() || "",
   },
   jwt: {
-    secret: process.env.JWT_SECRET || "",
-    expireIn: process.env.JWT_EXPIRES_IN || "1h",
+    secret: process.env.JWT_SECRET || defineString("JWT_SECRET").value() ||"",
+    expireIn: process.env.JWT_EXPIRES_IN || defineString("JWT_EXPIRES_IN").value()|| "1h",
   },
-  port: process.env.PORT || 4000,
-  prefix: process.env.PREFIX || "/api",
-  production: process.env.NODE_ENV === "production",
+  port: process.env.PORT || defineInt("PORT").value() ||4000,
+  prefix: process.env.PREFIX || defineString("PREFIX").value() ||"/api",
+  production: process.env.NODE_ENV === "production" || defineString("NODE_ENV").value() === "production",
+
   
 };

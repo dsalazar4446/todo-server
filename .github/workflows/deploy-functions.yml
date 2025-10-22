@@ -35,9 +35,9 @@ jobs:
           FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
-          NODE_ENV: ${{ var.NODE_ENV }}
-          PORT: ${{ var.PORT }}
-          PREFIX: ${{ var.PREFIX }}
+          NODE_ENV: ${{ vars.NODE_ENV }}
+          PORT: ${{ vars.PORT }}
+          PREFIX: ${{ vars.PREFIX }}
 
           
 

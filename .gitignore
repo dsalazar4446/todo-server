@@ -6,3 +6,6 @@ dist/
 .idea/*.log
 coverage/
 *.log
+secrets.local.json
+keys/
+build/

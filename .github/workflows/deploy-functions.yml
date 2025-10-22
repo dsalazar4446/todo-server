@@ -1,0 +1,44 @@
+name: Deploy Firebase Functions
+
+on:
+  push:
+    branches:
+      - master 
+
+jobs:
+  deploy:
+    name: Deploy Firebase Backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: ./todo-server
+        run: npm ci
+
+      - name: Build TypeScript
+        working-directory: ./todo-server
+        run: npm run build
+
+      - name: Deploy to Firebase
+        working-directory: ./todo-server
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
+          NODE_ENV: ${{ var.NODE_ENV }}
+          PORT: ${{ var.PORT }}
+          PREFIX: ${{ var.PREFIX }}
+
+          
+
+        run: firebase deploy --only functions --non-interactive

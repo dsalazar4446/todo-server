@@ -1,0 +1,118 @@
+import { DeleteAttachment } from "../../Attachment/application/useCases/DeleteAttachment";
+import { UploadAttachment } from "../../Attachment/application/useCases/UploadAttachment";
+import { DeleteAttachmentController } from "../../Attachment/infrastructure/controllers/DeleteAttachmentController";
+import { UploadAttachmentController } from "../../Attachment/infrastructure/controllers/UploadAttachmentController";
+import { FirebaseStorageService } from "../../Attachment/infrastructure/FirebaseStorageService";
+import {
+  AddAttachmentToTask,
+  AddTagToTask,
+  ArchiveCompletedTasks,
+  BulkDeleteCompletedTasks,
+  CreateTask,
+  DeleteTask,
+  DuplicateTask,
+  FirebaseTaskRepository,
+  ITaskRepository,
+  ListCompletedTasksByUser,
+  ListPendingTasksByUser,
+  ListTasksByDateRange,
+  ListTasksByUser,
+  RemoveAttachmentFromTask,
+  RemoveTagFromTask,
+  SearchTasks,
+  ToggleTask,
+  UpdateTask,
+} from "../../Task";
+import {
+  AddTagToTaskController,
+  RemoveTagFromTaskController,
+  AddAttachmentToTaskController,
+  ArchiveCompletedTasksController,
+  BulkDeleteCompletedTasksController,
+  CreateTaskController,
+  DuplicateTaskController,
+  ListCompletedTasksByUserController,
+  ListPendingTasksByUserController,
+  ListTasksByUserController,
+  SearchTasksController,
+  ToggleTaskController,
+  UpdateTaskController,
+  DeleteTaskController,
+} from "../../Task/infrastructure/controllers";
+import { RemoveAttachmentFromTaskController } from "../../Task/infrastructure/controllers/RemoveAttachmentFromTaskController";
+
+import { CreateUser, GetUserByEmail } from "../../User";
+import type { IUserRepository } from "../../User/application/repositories/IUserRepository";
+import { CreateUserController, GetUserByEmailController } from "../../User/infrastructure/controllers";
+import { FirebaseUserRepository } from "../../User/infrastructure/FirebaseUserRepository";
+import { AuthService } from "../infrastructure/auth/AuthService";
+import { ServiceContainer } from "./ServiceContainer";
+
+// Instancias concretas
+const userRepository = new FirebaseUserRepository();
+const taskRepository = new FirebaseTaskRepository();
+const firebaseStorageService = new FirebaseStorageService();
+
+// Registro de servicios
+ServiceContainer.register<AuthService>("AuthService", new AuthService());
+
+// Registro de repositorios
+ServiceContainer.register<IUserRepository>("UserRepository", userRepository);
+ServiceContainer.register<ITaskRepository>("TaskRepository", taskRepository);
+ServiceContainer.register('FirebaseStorageService', () => firebaseStorageService);
+
+
+
+// Registro de casos de uso user
+ServiceContainer.register<CreateUser>("CreateUser",new CreateUser(userRepository));
+ServiceContainer.register<GetUserByEmail>("GetUserByEmail",new GetUserByEmail(userRepository));
+ServiceContainer.register("CreateUserController",new CreateUserController(ServiceContainer.resolve("CreateUser")));
+ServiceContainer.register("GetUserByEmailController",new GetUserByEmailController(ServiceContainer.resolve("GetUserByEmail")));
+
+
+ServiceContainer.register<CreateTask>("CreateTask",new CreateTask(taskRepository));
+ServiceContainer.register<ToggleTask>("ToggleTask",new ToggleTask(taskRepository));
+ServiceContainer.register<UpdateTask>("UpdateTask",new UpdateTask(taskRepository));
+ServiceContainer.register<DeleteTask>("DeleteTask",new DeleteTask(taskRepository));
+ServiceContainer.register<ListTasksByUser>("ListTasksByUser",new ListTasksByUser(taskRepository));
+ServiceContainer.register("ListCompletedTasksByUser",new ListCompletedTasksByUser(taskRepository));
+ServiceContainer.register("ListPendingTasksByUser",new ListPendingTasksByUser(taskRepository));
+ServiceContainer.register("SearchTasks", new SearchTasks(taskRepository));
+ServiceContainer.register("ListTasksByDateRange",new ListTasksByDateRange(taskRepository));
+ServiceContainer.register("DuplicateTask", new DuplicateTask(taskRepository));
+ServiceContainer.register("ArchiveCompletedTasks",new ArchiveCompletedTasks(taskRepository));
+ServiceContainer.register("BulkDeleteCompletedTasks",new BulkDeleteCompletedTasks(taskRepository));
+
+// Tasks
+ServiceContainer.register("CreateTaskController",new CreateTaskController(ServiceContainer.resolve("CreateTask")));
+ServiceContainer.register("UpdateTaskController",new UpdateTaskController(ServiceContainer.resolve("UpdateTask")));
+ServiceContainer.register("DeleteTaskController",new DeleteTaskController(ServiceContainer.resolve("DeleteTask")));
+ServiceContainer.register("ToggleTaskController",new ToggleTaskController(ServiceContainer.resolve("ToggleTask")));
+
+ServiceContainer.register("ListTasksByUserController",new ListTasksByUserController(ServiceContainer.resolve("ListTasksByUser")));
+ServiceContainer.register("ListCompletedTasksByUserController",new ListCompletedTasksByUserController(ServiceContainer.resolve("ListCompletedTasksByUser")));
+ServiceContainer.register("ListPendingTasksByUserController",new ListPendingTasksByUserController(ServiceContainer.resolve("ListPendingTasksByUser")));
+ServiceContainer.register("SearchTasksController",new SearchTasksController(ServiceContainer.resolve("SearchTasks")));
+ServiceContainer.register("DuplicateTaskController",new DuplicateTaskController(ServiceContainer.resolve("DuplicateTask")));
+ServiceContainer.register("ArchiveCompletedTasksController",new ArchiveCompletedTasksController(ServiceContainer.resolve("ArchiveCompletedTasks")));
+ServiceContainer.register("BulkDeleteCompletedTasksController",new BulkDeleteCompletedTasksController(ServiceContainer.resolve("BulkDeleteCompletedTasks")));
+
+ServiceContainer.register("AddTagToTask", new AddTagToTask(taskRepository));
+ServiceContainer.register("RemoveTagFromTask",new RemoveTagFromTask(taskRepository));
+ServiceContainer.register("AddAttachmentToTask",new AddAttachmentToTask(taskRepository));
+ServiceContainer.register("RemoveAttachmentFromTask",new RemoveAttachmentFromTask(taskRepository));
+
+ServiceContainer.register("AddTagToTaskController",new AddTagToTaskController(ServiceContainer.resolve("AddTagToTask")));
+ServiceContainer.register("RemoveTagFromTaskController",new RemoveTagFromTaskController(ServiceContainer.resolve("RemoveTagFromTask")));
+
+ServiceContainer.register("AddAttachmentToTaskController",new AddAttachmentToTaskController(ServiceContainer.resolve("AddAttachmentToTask")));
+ServiceContainer.register("RemoveAttachmentFromTaskController",new RemoveAttachmentFromTaskController(ServiceContainer.resolve("RemoveAttachmentFromTask")));
+
+// Attachments
+
+ServiceContainer.register("UploadAttachment",new UploadAttachment(taskRepository,firebaseStorageService));
+ServiceContainer.register("DeleteAttachment", new DeleteAttachment(taskRepository, firebaseStorageService));
+ServiceContainer.register("UploadAttachmentController",new UploadAttachmentController(ServiceContainer.resolve("UploadAttachment")));
+ServiceContainer.register("DeleteAttachmentController",(new DeleteAttachmentController(ServiceContainer.resolve("DeleteAttachment"))));
+
+export { ServiceContainer };

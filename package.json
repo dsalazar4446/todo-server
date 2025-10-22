@@ -2,9 +2,23 @@
   "name": "todo-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/main.js",
+  "engines": {
+    "node": "20"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node build/main.js",
+    "dev": "ts-node-dev src/main.ts",
+    "build": "rm -r build && tsc",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "firebase:start": "npm run shell",
+    "firebase:deploy": "firebase deploy --only functions",
+    "firebase:ogs": "firebase functions:log",
+    "firebase:test": "jest --runInBand",
+    "test:unit": "jest tests/lib/unit --runInBand",
+    "test:integration": "jest tests/lib/integration --runInBand",
+    "test:e2e": "jest tests/lib/e2e --runInBand"
   },
   "keywords": [],
   "author": "",
@@ -12,15 +26,30 @@
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
-    "@types/node": "^24.8.1",
+    "@types/jest": "^30.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^24.9.1",
+    "@types/supertest": "^6.0.3",
+    "eslint": "^9.38.0",
+    "jest": "^30.2.0",
+    "supertest": "^7.1.4",
+    "ts-jest": "^29.4.5",
     "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "tsc": "^2.0.4",
     "tslib": "^2.8.1",
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "firebase-admin": "^13.5.0"
+    "firebase-admin": "^13.5.0",
+    "firebase-functions": "^6.6.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.2",
+    "zod": "^4.1.12"
   }
 }

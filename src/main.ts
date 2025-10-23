@@ -8,6 +8,5 @@ if (!config.production) {
     (server.init() as any).listen(config.port, () => {
       Logger.info(`🚀 Server is running on port ${config.port}`);
     });
-}else {
-    exports.api = server.init();
 }
+exports.api = server.init();

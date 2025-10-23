@@ -9,12 +9,6 @@ jobs:
   deploy:
     name: Deploy Firebase Backend
     runs-on: ubuntu-latest
-    env:
-          FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
-          NODE_ENV: ${{ vars.NODE_ENV }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -38,4 +32,11 @@ jobs:
           echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/service-account.json" >> $GITHUB_ENV
           ls -l $HOME/service-account.json
       - name: Deploy to Firebase
+        env:
+          FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
+          NODE_ENV: ${{ vars.NODE_ENV }}
+          PORT: ${{ vars.PORT }}
+          PREFIX: ${{ vars.PREFIX }}
         run: firebase deploy --only functions  --non-interactive --force --debug

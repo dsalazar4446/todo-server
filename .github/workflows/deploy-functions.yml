@@ -34,10 +34,9 @@ jobs:
       - name: Create .env file
         run: |
           echo "FIREBASE_PROJECT_ID=${{ vars.FIREBASE_PROJECT_ID }}" >> .env
-          echo "FIREBASE_STORAGE_BUCKET=${{ vars.FIREBASE_STORAGE_BUCKET }}" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           echo "JWT_EXPIRES_IN=${{ vars.JWT_EXPIRES_IN }}" >> .env
-          echo "NODE_ENV=production" >> .env
-          echo "PREFIX=/api" >> .env
+          echo "NODE_ENV=${{ vars.NODE_ENV }}" >> .env
+          echo "PREFIX=${{ vars.PREFIX }}" >> .env
       - name: Deploy to Firebase
         run: firebase deploy --only functions  --non-interactive --force --debug

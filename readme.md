@@ -164,7 +164,7 @@ Este backend implementa una **API REST** basada en **Node.js + Express**, utiliz
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/<usuario>/<repositorio>.git
+git clone https://github.com/dsalazar4446/todo-server.git
 cd todo-server
 ```
 

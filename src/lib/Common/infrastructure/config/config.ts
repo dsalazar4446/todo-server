@@ -22,8 +22,8 @@ const PARAMS = {
   JWT_SECRET: defineString("JWT_SECRET"),
   JWT_EXPIRES_IN: defineString("JWT_EXPIRES_IN"),
   NODE_ENV: defineString("NODE_ENV"),
-  PORT: defineInt("PORT"),
-  PREFIX: defineString("PREFIX"),
+  // PORT: defineInt("PORT"),
+  // PREFIX: defineString("PREFIX"),
 };
 export const config = {
   firebase: {
@@ -40,8 +40,8 @@ export const config = {
       process.env.JWT_EXPIRES_IN ||
       tryGet(() => PARAMS.JWT_EXPIRES_IN.value(), "1h"),
   },
-  port: process.env.PORT || tryGet(() => PARAMS.PORT.value(), 4000),
-  prefix: process.env.PREFIX || tryGet(() => PARAMS.PREFIX.value(), "/api"),
+  port: process.env.PORT ,
+  prefix: process.env.PREFIX,
   production:
     process.env.NODE_ENV === "production" ||
     tryGet(() => PARAMS.NODE_ENV.value(), "") === "production",

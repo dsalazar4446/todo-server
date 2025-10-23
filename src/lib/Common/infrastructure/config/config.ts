@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import path from "path";
-import { defineInt, defineString } from "firebase-functions/params";
+import { defineString } from "firebase-functions/params";
 import fs from "fs";
 dotenv.config({
   path: path.resolve(__dirname, "../../../../../.env"),
@@ -40,8 +40,8 @@ export const config = {
       process.env.JWT_EXPIRES_IN ||
       tryGet(() => PARAMS.JWT_EXPIRES_IN.value(), "1h"),
   },
-  port: process.env.PORT ,
-  prefix: process.env.PREFIX,
+  port: process.env.PORT || 3000,
+  prefix: process.env.PREFI || '/api',
   production:
     process.env.NODE_ENV === "production" ||
     tryGet(() => PARAMS.NODE_ENV.value(), "") === "production",

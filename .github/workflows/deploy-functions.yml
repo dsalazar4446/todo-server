@@ -16,7 +16,7 @@ jobs:
           JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
           NODE_ENV: ${{ vars.NODE_ENV }}
           PORT: ${{ vars.PORT }}
-          PREFIX: "/${{ vars.PREFIX }}"
+          PREFIX: "//api"
 
     steps:
       - name: Checkout repository

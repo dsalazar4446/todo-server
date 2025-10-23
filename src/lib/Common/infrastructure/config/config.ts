@@ -50,7 +50,6 @@ export const config = {
     tryGet(() => PARAMS.NODE_ENV.value(), "") === "production",
 };
 
-console.log(config);
 
 
 

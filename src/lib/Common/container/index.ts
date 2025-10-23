@@ -1,6 +1,5 @@
 
 import {
-  AddAttachmentToTask,
   AddTagToTask,
   ArchiveCompletedTasks,
   BulkDeleteCompletedTasks,
@@ -13,7 +12,6 @@ import {
   ListPendingTasksByUser,
   ListTasksByDateRange,
   ListTasksByUser,
-  RemoveAttachmentFromTask,
   RemoveTagFromTask,
   SearchTasks,
   ToggleTask,
@@ -22,7 +20,6 @@ import {
 import {
   AddTagToTaskController,
   RemoveTagFromTaskController,
-  AddAttachmentToTaskController,
   ArchiveCompletedTasksController,
   BulkDeleteCompletedTasksController,
   CreateTaskController,
@@ -35,7 +32,6 @@ import {
   UpdateTaskController,
   DeleteTaskController,
 } from "../../Task/infrastructure/controllers";
-import { RemoveAttachmentFromTaskController } from "../../Task/infrastructure/controllers/RemoveAttachmentFromTaskController";
 
 import { CreateUser, GetUserByEmail } from "../../User";
 import type { IUserRepository } from "../../User/application/repositories/IUserRepository";
@@ -93,14 +89,10 @@ ServiceContainer.register("BulkDeleteCompletedTasksController",new BulkDeleteCom
 
 ServiceContainer.register("AddTagToTask", new AddTagToTask(taskRepository));
 ServiceContainer.register("RemoveTagFromTask",new RemoveTagFromTask(taskRepository));
-ServiceContainer.register("AddAttachmentToTask",new AddAttachmentToTask(taskRepository));
-ServiceContainer.register("RemoveAttachmentFromTask",new RemoveAttachmentFromTask(taskRepository));
 
 ServiceContainer.register("AddTagToTaskController",new AddTagToTaskController(ServiceContainer.resolve("AddTagToTask")));
 ServiceContainer.register("RemoveTagFromTaskController",new RemoveTagFromTaskController(ServiceContainer.resolve("RemoveTagFromTask")));
 
-ServiceContainer.register("AddAttachmentToTaskController",new AddAttachmentToTaskController(ServiceContainer.resolve("AddAttachmentToTask")));
-ServiceContainer.register("RemoveAttachmentFromTaskController",new RemoveAttachmentFromTaskController(ServiceContainer.resolve("RemoveAttachmentFromTask")));
-
+ 
 
 export { ServiceContainer };

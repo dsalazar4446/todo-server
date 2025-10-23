@@ -14,7 +14,6 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
           NODE_ENV: ${{ vars.NODE_ENV }}
-          PORT: ${{ vars.PORT }}
 
     steps:
       - name: Checkout repository

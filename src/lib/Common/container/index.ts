@@ -1,8 +1,4 @@
-import { DeleteAttachment } from "../../Attachment/application/useCases/DeleteAttachment";
-import { UploadAttachment } from "../../Attachment/application/useCases/UploadAttachment";
-import { DeleteAttachmentController } from "../../Attachment/infrastructure/controllers/DeleteAttachmentController";
-import { UploadAttachmentController } from "../../Attachment/infrastructure/controllers/UploadAttachmentController";
-import { FirebaseStorageService } from "../../Attachment/infrastructure/FirebaseStorageService";
+
 import {
   AddAttachmentToTask,
   AddTagToTask,
@@ -51,7 +47,6 @@ import { ServiceContainer } from "./ServiceContainer";
 // Instancias concretas
 const userRepository = new FirebaseUserRepository();
 const taskRepository = new FirebaseTaskRepository();
-const firebaseStorageService = new FirebaseStorageService();
 
 // Registro de servicios
 ServiceContainer.register<AuthService>("AuthService", new AuthService());
@@ -59,7 +54,6 @@ ServiceContainer.register<AuthService>("AuthService", new AuthService());
 // Registro de repositorios
 ServiceContainer.register<IUserRepository>("UserRepository", userRepository);
 ServiceContainer.register<ITaskRepository>("TaskRepository", taskRepository);
-ServiceContainer.register('FirebaseStorageService', () => firebaseStorageService);
 
 
 
@@ -108,11 +102,5 @@ ServiceContainer.register("RemoveTagFromTaskController",new RemoveTagFromTaskCon
 ServiceContainer.register("AddAttachmentToTaskController",new AddAttachmentToTaskController(ServiceContainer.resolve("AddAttachmentToTask")));
 ServiceContainer.register("RemoveAttachmentFromTaskController",new RemoveAttachmentFromTaskController(ServiceContainer.resolve("RemoveAttachmentFromTask")));
 
-// Attachments
-
-ServiceContainer.register("UploadAttachment",new UploadAttachment(taskRepository,firebaseStorageService));
-ServiceContainer.register("DeleteAttachment", new DeleteAttachment(taskRepository, firebaseStorageService));
-ServiceContainer.register("UploadAttachmentController",new UploadAttachmentController(ServiceContainer.resolve("UploadAttachment")));
-ServiceContainer.register("DeleteAttachmentController",(new DeleteAttachmentController(ServiceContainer.resolve("DeleteAttachment"))));
 
 export { ServiceContainer };

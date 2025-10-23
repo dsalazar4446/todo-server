@@ -18,7 +18,6 @@ if (fs.existsSync(secretsPath)) {
 }
 
 const PARAMS = {
-  FIREBASE_STORAGE_BUCKET: defineString("FIREBASE_STORAGE_BUCKET"),
   FIREBASE_PROJECT_ID: defineString("FIREBASE_PROJECT_ID"),
   JWT_SECRET: defineString("JWT_SECRET"),
   JWT_EXPIRES_IN: defineString("JWT_EXPIRES_IN"),
@@ -28,9 +27,7 @@ const PARAMS = {
 };
 export const config = {
   firebase: {
-    bucket:
-      process.env.FIREBASE_STORAGE_BUCKET ||
-      tryGet(() => PARAMS.FIREBASE_STORAGE_BUCKET.value(), ""),
+
     firebaseKeyPath: process.env.FIREBASE_KEY_PATH || "",
     projectId:
       process.env.FIREBASE_PROJECT_ID ||

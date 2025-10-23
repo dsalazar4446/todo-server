@@ -18,7 +18,6 @@ export function firebaseInit(): void {
     admin.initializeApp({
       credential: admin.credential.applicationDefault(),
       projectId: config.firebase.projectId,
-      storageBucket: config.firebase.bucket,
     });
   } else {
     const keyPath = path.resolve(process.cwd(), config.firebase.firebaseKeyPath);
@@ -41,7 +40,6 @@ export function firebaseInit(): void {
 
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount as ServiceAccount),
-      storageBucket: config.firebase.bucket,
       projectId: config.firebase.projectId,
       serviceAccountId: serviceAccount.client_id
     });

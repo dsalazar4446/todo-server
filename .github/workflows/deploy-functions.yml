@@ -38,7 +38,4 @@ jobs:
           echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/service-account.json" >> $GITHUB_ENV
           ls -l $HOME/service-account.json
       - name: Deploy to Firebase
-        run: |
-          firebase deploy --only functions \
-            --project ${{ vars.FIREBASE_PROJECT_ID }} \
-            --non-interactive --force --debug
+        run: npm run firebase:deploy

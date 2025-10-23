@@ -14,7 +14,7 @@
     "shell": "npm run build && firebase functions:shell",
     "firebase:start": "npm run shell",
     "firebase:deploy": "firebase deploy --only functions",
-    "firebase:ogs": "firebase functions:log",
+    "firebase:logs": "firebase functions:log",
     "firebase:test": "jest --runInBand",
     "test:unit": "jest tests/lib/unit --runInBand",
     "test:integration": "jest tests/lib/integration --runInBand",

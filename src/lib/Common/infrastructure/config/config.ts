@@ -18,7 +18,7 @@ if (fs.existsSync(secretsPath)) {
 }
 
 const PARAMS = {
-  FIREBASE_PROJECT_ID: defineString("FIREBASE_PROJECT_ID"),
+  FIREBASE_PROJECT_ID: defineString("PROJECT_ID"),
   JWT_SECRET: defineString("JWT_SECRET"),
   JWT_EXPIRES_IN: defineString("JWT_EXPIRES_IN"),
   NODE_ENV: defineString("NODE_ENV"),
@@ -30,7 +30,7 @@ export const config = {
 
     firebaseKeyPath: process.env.FIREBASE_KEY_PATH || "",
     projectId:
-      process.env.FIREBASE_PROJECT_ID ||
+      process.env.PROJECT_ID ||
       tryGet(() => PARAMS.FIREBASE_PROJECT_ID.value(), ""),
   },
   jwt: {

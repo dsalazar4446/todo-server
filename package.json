@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node build/main.js",
     "dev": "ts-node-dev src/main.ts",
-    "build": "rimraf build && tsc",
+    "build": "npx rimraf build && tsc",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "firebase:start": "npm run shell",
@@ -19,7 +19,7 @@
     "test:unit": "jest tests/lib/unit --runInBand",
     "test:integration": "jest tests/lib/integration --runInBand",
     "test:e2e": "jest tests/lib/e2e --runInBand",
-    "lint": "echo 'Lint disabled for CI build'"
+    "lint": "npx run build/main.js"
   },
   "keywords": [],
   "author": "",

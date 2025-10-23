@@ -37,7 +37,7 @@ export const config = {
     secret:
       process.env.JWT_SECRET || tryGet(() => PARAMS.JWT_SECRET.value(), ""),
     expireIn:
-      process.env.JWT_EXPIRES_IN ||
+      process.env.JWT_EXPIRES_IN || "1h" ||
       tryGet(() => PARAMS.JWT_EXPIRES_IN.value(), "1h"),
   },
   port: process.env.PORT || 3000,

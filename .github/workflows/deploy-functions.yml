@@ -39,7 +39,6 @@ jobs:
           ls -l $HOME/service-account.json
       - name: Deploy to Firebase
         run: |
-          echo "✅ Environment variables loaded:"
-          echo "Project: $FIREBASE_PROJECT_ID"
-          echo "Prefix: $PREFIX"
-          firebase deploy --only functions  --non-interactive --force --debug
+          firebase deploy --only functions \
+            --project "$FIREBASE_PROJECT_ID" \
+            --non-interactive --force --debug

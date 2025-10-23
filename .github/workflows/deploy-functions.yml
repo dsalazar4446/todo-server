@@ -33,7 +33,7 @@ jobs:
           ls -l $HOME/service-account.json
       - name: Create .env file
         run: |
-          echo "X_GOOGLE_FIREBASE_EXT_PROJECT_ID=${{ vars.APP_FIREBASE_PROJECT_ID }}" >> .env
+          echo "FIREBASE_PROJECT_ID=${{ vars.APP_FIREBASE_PROJECT_ID }}" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           echo "JWT_EXPIRES_IN=${{ vars.JWT_EXPIRES_IN }}" >> .env
           echo "NODE_ENV=${{ vars.NODE_ENV }}" >> .env

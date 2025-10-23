@@ -2,45 +2,59 @@ name: Deploy Firebase Functions
 
 on:
   push:
-    branches:
-      - master 
+    branches: [ main ]
 
 jobs:
   deploy:
-    name: Deploy Firebase Backend
     runs-on: ubuntu-latest
 
+    env:
+      # 🌐 Variables globales accesibles por todos los steps
+      FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
+      FIREBASE_STORAGE_BUCKET: ${{ vars.FIREBASE_STORAGE_BUCKET }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      JWT_EXPIRES_IN: ${{ vars.JWT_EXPIRES_IN }}
+      NODE_ENV: production
+      PORT: 3000
+      PREFIX: /api
+
     steps:
+      # 🧩 1️⃣ Checkout
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 🧩 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      
+      # 🧩 3️⃣ Install dependencies
       - name: Install dependencies
+        working-directory: todo-server
         run: npm ci
-      - name: rebuild TypeScript
-        run: npm rebuild typescript
-      - name: Build TypeScript
+
+      # 🧩 4️⃣ Build project (las vars ya están en process.env)
+      - name: Build
+        working-directory: todo-server
         run: npm run build
-      - name: Install latest Firebase CLI
+
+      # 🧩 5️⃣ Install Firebase CLI
+      - name: Install Firebase CLI
         run: npm install -g firebase-tools@latest
+
+      # 🧩 6️⃣ Configure Google credentials (service account JSON)
       - name: Configure Google credentials
         run: |
           echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}' > $HOME/service-account.json
           echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/service-account.json" >> $GITHUB_ENV
-          ls -l $HOME/service-account.json
-      - name: Deploy to Firebase
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ env.GOOGLE_APPLICATION_CREDENTIALS }}
-          FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
-          FIREBASE_STORAGE_BUCKET: ${{ vars.FIREBASE_STORAGE_BUCKET }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
-          NODE_ENV: ${{ vars.NODE_ENV }}
-          PORT: ${{ vars.PORT }}
-          PREFIX: ${{ vars.PREFIX }}
-        run: firebase deploy --only functions  --non-interactive --force --debug
+
+      # 🧩 7️⃣ Deploy to Firebase (las vars estarán en el entorno)
+      - name: Deploy Functions
+        working-directory: todo-server
+        run: |
+          echo "✅ Environment variables loaded:"
+          echo "Project: $FIREBASE_PROJECT_ID"
+          echo "Bucket: $FIREBASE_STORAGE_BUCKET"
+          echo "Prefix: $PREFIX"
+          firebase deploy --only functions --project $FIREBASE_PROJECT_ID --non-interactive --force

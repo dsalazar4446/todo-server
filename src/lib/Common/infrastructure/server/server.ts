@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Response ,Request} from "express";
 import cors from "cors";
 import { json, urlencoded } from "express";
 import { config } from "../config/config";
@@ -49,14 +49,14 @@ export class Server {
     const {prefix} = config;
     this.app.use(prefix, router);
 
-    this.app.get(`${prefix}/health`, async (_, res) => {
-      const status = {...checkFirebaseStatus()};
+    this.app.get(`${prefix}/health`, async (_: Request, res: Response) => {
+      const status = { ...checkFirebaseStatus() };
       console.log("[Firebase Status]", status);
-      
+
       res.json({ status });
     });
 
-    this.app.get(prefix, (_, res) => {
+    this.app.get(prefix, (_:Request, res:Response) => {
       res.send("🚀 API is running");
     });
   }

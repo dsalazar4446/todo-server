@@ -50,6 +50,9 @@ export const config = {
     tryGet(() => PARAMS.NODE_ENV.value(), "") === "production",
 };
 
+console.log(config);
+
+
 
 function tryGet<T>(getter: () => T, fallback: T): T {
   try {
